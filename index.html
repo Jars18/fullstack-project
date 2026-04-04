@@ -50,14 +50,49 @@
     <h1>Task Manager</h1>
     <input type="text" id="taskInput" placeholder="Escribe una nueva tarea" />
     <button id="addTaskBtn">Agregar tarea</button>
-    <ul id="taskList">
-      <li>Estudiar JacaScript</li>
-    </ul>
+    <ul id="taskList"></ul>
     <script>
       const input = document.querySelector("#taskInput");
       const button = document.querySelector("#addTaskBtn");
       const list = document.querySelector("#taskList");
-      button.addEventListener("click", () => {});
+      let taskList = [
+        { id: 0, title: "Estudia JavaScript" },
+        { id: 1, title: "Estudia CSS" },
+      ];
+
+      function showTasks() {
+        list.innerHTML = "";
+        taskList.forEach(function (task, index) {
+          let newTask = document.createElement("li");
+          newTask.textContent = task.title;
+          newTask.index = index;
+          newTask.id = index.toString();
+          list.appendChild(newTask);
+        });
+      }
+      function deleteTask(index) {
+        taskList.splice(index, 1);
+        showTasks();
+      }
+      function addTask(titleTask) {
+        taskList.push({ id: taskList.length + 1, title: titleTask });
+        showTasks();
+      }
+
+      document.addEventListener("click", function (e) {
+        if (e.target.matches("li")) {
+          deleteTask(e.target.id);
+        }
+      });
+      button.addEventListener("click", () => {
+        if (input.value !== "") {
+          title = input.value;
+          addTask(title);
+          input.value = "";
+        }
+      });
+
+      showTasks();
     </script>
   </body>
 </html>
