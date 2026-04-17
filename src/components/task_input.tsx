@@ -9,23 +9,16 @@ type Task = {
 };
 
 interface TaskInputProps {
-  tasks: Task[];
-  setTasks: (tasks: Task[]) => void;
+  addTask: (title: string) => void;
 }
 
-function TaskInput({ tasks, setTasks }: TaskInputProps) {
+function TaskInput({ addTask }: TaskInputProps) {
   const [newTask, setNewTask] = useState("");
 
   function handleAddTask() {
     if (!newTask.trim()) return;
 
-    const newTaskObject: Task = {
-      id: Date.now(),
-      title: newTask,
-      isComplete: false,
-    };
-
-    setTasks([...tasks, newTaskObject]);
+    addTask(newTask);
     setNewTask("");
   }
 
