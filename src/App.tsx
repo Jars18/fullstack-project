@@ -2,7 +2,7 @@ import Header from "./components/headers";
 import TaskList from "./components/task_list";
 import Footer from "./components/footer";
 import TaskInput from "./components/task_input";
-// import { tasks as inititalTasks } from "./components/empty_state";
+import { api } from "./api";
 import { useEffect, useState } from "react";
 function App() {
   type Task = {
@@ -13,7 +13,7 @@ function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/tasks")
+    fetch(api("/tasks"))
       .then((response) => response.json())
       .then((data) => {
         setTasks(data);
@@ -30,7 +30,7 @@ function App() {
       isComplete: false,
     };
 
-    fetch("http://localhost:3000/tasks", {
+    fetch(api("/tasks"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newTask),
