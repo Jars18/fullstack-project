@@ -8,8 +8,8 @@ const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 const { PrismaPg } = require("@prisma/adapter-pg");
 
+//Conexión con la base de datos.
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-
 const prisma = new PrismaClient({ adapter });
 
 const app = express();
@@ -78,9 +78,7 @@ app.delete("/tasks/:id", async (req: any, res: any) => {
 app.post("/login", (req: any, res: any) => {
   const { username, password } = req.body;
 
-  // Validación simple (puedes reemplazar con BD después)
   if (username === "admin" && password === "1234") {
-    // Crear token
     const token = jwt.sign({ username: username }, SECRET_KEY, {
       expiresIn: "1h",
     });
@@ -103,7 +101,6 @@ const verifyToken = (req: any, res: any, next: any) => {
     return res.status(403).json({ message: "Token requerido" });
   }
 
-  // Formato esperado: "Bearer TOKEN"
   const token = authHeader.split(" ")[1];
 
   if (!token) {
@@ -115,8 +112,8 @@ const verifyToken = (req: any, res: any, next: any) => {
       return res.status(401).json({ message: "Token inválido o expirado" });
     }
 
-    req.user = decoded; // opcional
-    next(); // 🔥 permite continuar
+    req.user = decoded;
+    next();
   });
 };
 

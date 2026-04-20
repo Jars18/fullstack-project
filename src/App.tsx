@@ -25,9 +25,7 @@ function App() {
 
   const addTask = (taskText: string) => {
     const newTask = {
-      id: Date.now(),
       title: taskText,
-      isComplete: false,
     };
 
     fetch(api("/tasks"), {
