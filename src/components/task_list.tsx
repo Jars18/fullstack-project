@@ -1,9 +1,10 @@
 import TaskCard from "./task_card";
 import React, { useState } from "react";
-import pencilIcon from "../assets/pencil-edit.svg";
+// @ts-ignore
 import trashIcon from "../assets/trash.svg";
 // @ts-ignore
 import "./task_list.css";
+import { api } from "../api";
 
 type Task = {
   id: number;
@@ -18,7 +19,7 @@ type TaskListProps = {
 
 function TaskList({ tasks, setTasks }: TaskListProps) {
   function toggleTask(id: number, currentState: boolean) {
-    fetch(`http://localhost:3000/tasks/${id}`, {
+    fetch(api(`/tasks/${id}`), {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ isComplete: !currentState }),
@@ -34,7 +35,7 @@ function TaskList({ tasks, setTasks }: TaskListProps) {
   }
 
   function deleteTask(id: number) {
-    fetch(`http://localhost:3000/tasks/${id}`, {
+    fetch(api(`/tasks/${id}`), {
       method: "DELETE",
     })
       .then((res) => res.json())

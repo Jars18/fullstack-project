@@ -1,4 +1,6 @@
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = process.env.JWT_SECRET_KEY;
 const express = require("express");
 
 const cors = require("cors");
@@ -19,16 +21,11 @@ app.listen(PORT, () => {
 
 app.use(cors());
 app.use(express.json());
-// let tasks = [
-//   { id: 1, title: "Study Express", isComplete: false },
-//   { id: 2, title: "Build backend 2", isComplete: true },
-// ];
+
 app.get("/", (req: any, res: any) => {
   res.send("Backend is working!");
 });
-// app.get("/tasks", (req: any, res: any) => {
-//   res.json(tasks);
-// });
+
 app.get("/tasks", async (req: any, res: any) => {
   try {
     console.log("DB URL:", process.env.DATABASE_URL);
@@ -39,27 +36,7 @@ app.get("/tasks", async (req: any, res: any) => {
     res.status(500).json({ message: "Error al obtener tareas" });
   }
 });
-// app.post("/tasks", (req: any, res: any) => {
-//   const newTask = {
-//     id: req.body.id,
-//     title: req.body.title,
-//     isComplete: req.body.isCompleted,
-//   };
-//   tasks.push(newTask);
-//   res.json(newTask);
-// });
-// app.post("/tasks", (req: any, res: any) => {
-//   console.log("POST /tasks fue llamado");
-//   console.log("Datos recibidos:", req.body);
-//   const newTask = {
-//     id: req.body.id,
-//     title: req.body.title,
-//     isComplete: req.body.isComplete,
-//   };
-//   tasks.push(newTask);
-//   console.log("Lista actualizada", tasks);
-//   res.json(newTask);
-// });
+
 app.post("/tasks", async (req: any, res: any) => {
   try {
     const newTask = await prisma.task.create({
@@ -98,40 +75,55 @@ app.delete("/tasks/:id", async (req: any, res: any) => {
     res.status(500).json({ message: "Error al eliminar tarea" });
   }
 });
-// app.delete("/tasks/:id", (req: any, res: any) => {
-//   const id = parseInt(req.params.id);
+app.post("/login", (req: any, res: any) => {
+  const { username, password } = req.body;
 
-//   const taskIndex = tasks.findIndex((task) => task.id === id);
+  // Validación simple (puedes reemplazar con BD después)
+  if (username === "admin" && password === "1234") {
+    // Crear token
+    const token = jwt.sign({ username: username }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
 
-//   if (taskIndex === -1) {
-//     return res.status(404).json({ message: "Tarea no encontrada" });
-//   }
+    return res.json({
+      message: "Login exitoso",
+      token: token,
+    });
+  } else {
+    return res.status(401).json({
+      message: "Credenciales incorrectas",
+    });
+  }
+});
 
-//   const deletedTask = tasks[taskIndex];
-//   tasks.splice(taskIndex, 1);
+const verifyToken = (req: any, res: any, next: any) => {
+  const authHeader = req.headers["authorization"];
 
-//   res.json({
-//     message: "Tarea eliminada",
-//     task: deletedTask,
-//   });
-// });
-// app.put("/tasks/:id", (req: any, res: any) => {
-//   const id = parseInt(req.params.id);
-//   const { isComplete } = req.body;
+  if (!authHeader) {
+    return res.status(403).json({ message: "Token requerido" });
+  }
 
-//   const task = tasks.find((task) => task.id === id);
+  // Formato esperado: "Bearer TOKEN"
+  const token = authHeader.split(" ")[1];
 
-//   if (!task) {
-//     return res.status(404).json({ message: "Tarea no encontrada" });
-//   }
+  if (!token) {
+    return res.status(403).json({ message: "Token inválido" });
+  }
 
-//   task.isComplete = isComplete;
+  jwt.verify(token, SECRET_KEY, (err: any, decoded: any) => {
+    if (err) {
+      return res.status(401).json({ message: "Token inválido o expirado" });
+    }
 
-//   res.json({
-//     message: "Estado actualizado",
-//     task,
-//   });
-// });
+    req.user = decoded; // opcional
+    next(); // 🔥 permite continuar
+  });
+};
+
+app.get("/private", verifyToken, (req: any, res: any) => {
+  res.json({ message: "Acceso permitido" });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
