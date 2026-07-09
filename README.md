@@ -2,7 +2,7 @@
  
 La aplicación web ayuda con la gestion de una lista de que haceres, ofreciendo el guardado en una base de datos.
  
-<!-- BADGE_CI -->
+[![CI](https://github.com/Jars18/fullstack-project/actions/workflows/ci.yml/badge.svg)](https://github.com/Jars18/fullstack-project/actions/workflows/ci.yml)
  
 ## 🚀 Instalación local
  
