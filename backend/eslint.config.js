@@ -1,11 +1,11 @@
 import js from '@eslint/js'
 import globals from 'globals'
+import tseslint from 'typescript-eslint'
 
 export default [
   {
     ignores: ['dist', 'node_modules', 'prisma'],
   },
-  
   {
     files: ['**/*.{js,mjs,cjs,ts}'],
     languageOptions: {
@@ -18,7 +18,6 @@ export default [
     },
     rules: {
       ...js.configs.recommended.rules, 
-      
       'no-unused-vars': ['error', { 
         varsIgnorePattern: '^[A-Z_]',
         argsIgnorePattern: '^_'
@@ -26,4 +25,8 @@ export default [
       'no-console': 'off',
     },
   },
+  ...tseslint.configs.recommended.map(config => ({
+    ...config,
+    files: ['**/*.ts'],
+  })),
 ]
