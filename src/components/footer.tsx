@@ -9,6 +9,7 @@ function Footer({ tasksCounter, tasksCompleteCounter }: FooterProps) {
       <footer>Diplomado FullStack</footer>
       <div>Tienes {tasksCounter} tareas registradas</div>
       <div>Tienes {tasksCompleteCounter} tareas terminadas</div>
+      <div>Copyright © JaRs ~ 2026</div>
     </>
   );
 }
