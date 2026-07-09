@@ -29,4 +29,11 @@ export default [
     ...config,
     files: ['**/*.ts'],
   })),
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
 ]
