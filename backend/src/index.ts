@@ -61,7 +61,7 @@ app.put("/tasks/:id", async (req: any, res: any) => {
     console.error("Error en PUT /tasks/:id", error);
     res.status(500).json({ message: "Error al actualizar tarea" });
   }
-});
+}
 
 app.delete("/tasks/:id", async (req: any, res: any) => {
   try {
