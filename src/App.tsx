@@ -4,6 +4,7 @@ import Footer from "./components/footer";
 import TaskInput from "./components/task_input";
 import { api } from "./api";
 import { useEffect, useState } from "react";
+import { countCompletedTasks } from "./utils/validations";
 function App() {
   type Task = {
     id: number;
@@ -43,9 +44,7 @@ function App() {
       });
   };
 
-  const tasksCompleted = tasks.reduce((acc, task) => {
-    return task.isComplete ? acc + 1 : acc;
-  }, 0);
+  const tasksCompleted = countCompletedTasks(tasks);
 
   return (
     <div>

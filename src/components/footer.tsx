@@ -3,7 +3,6 @@ interface FooterProps {
   tasksCompleteCounter: number;
 }
 function Footer({ tasksCounter, tasksCompleteCounter }: FooterProps) {
-  console.log(tasksCounter);
   return (
     <>
       <footer>Diplomado FullStack</footer>

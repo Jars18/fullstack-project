@@ -2,12 +2,6 @@ import { useState } from "react";
 // @ts-ignore
 import "./task_input.css";
 
-type Task = {
-  id: number;
-  title: string;
-  isComplete: boolean;
-};
-
 interface TaskInputProps {
   addTask: (title: string) => void;
 }
