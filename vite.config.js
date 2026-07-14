@@ -15,13 +15,15 @@ export default defineConfig({
   // },
   test: {
     globals: true,
+    include: ['src/**/*.{test,spec}.{js,jsx,ts,tsx}'],
     exclude: [
       '**/e2e/**',
       '**/node_modules/**',
       '**/dist/**',
       '**/playwright-report/**',
       '**/test-results/**',
-      '**/backend/**'
+      '**/backend/**',
+      '**/tests/**'
     ],
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
@@ -34,6 +36,10 @@ export default defineConfig({
         branches: 50,
         statements: 60,
       },
+      exclude: [
+        '**/backend/**',
+        '**/tests/**'
+      ]
     },
   },
 })
