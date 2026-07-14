@@ -20,7 +20,8 @@ export default defineConfig({
       '**/node_modules/**',
       '**/dist/**',
       '**/playwright-report/**',
-      '**/test-results/**'
+      '**/test-results/**',
+      '**/backend/**'
     ],
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
