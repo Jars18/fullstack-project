@@ -1,8 +1,9 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
+// eslint.config.cjs
+const js = require('@eslint/js');
+const globals = require('globals');
+const tseslint = require('typescript-eslint');
 
-export default [
+module.exports = [
   {
     ignores: ['dist', 'node_modules', 'prisma'],
   },
@@ -12,12 +13,12 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
-        ...globals.node,   
+        ...globals.node,
         ...globals.es2021,
       },
     },
     rules: {
-      ...js.configs.recommended.rules, 
+      ...js.configs.recommended.rules,
       'no-unused-vars': ['error', { 
         varsIgnorePattern: '^[A-Z_]',
         argsIgnorePattern: '^_'
@@ -36,4 +37,4 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
-]
+];
