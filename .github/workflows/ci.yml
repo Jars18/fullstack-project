@@ -44,6 +44,11 @@ jobs:
   pruebas:
     name: Pruebas unitarias y cobertura
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
     defaults:
       run:
         working-directory: ./ 
@@ -55,6 +60,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - run: npm ci 
+      - run: npm run test
       - run: npx vitest run --coverage --exclude "backend/**"
  
   e2e:
