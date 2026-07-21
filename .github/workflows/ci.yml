@@ -67,7 +67,7 @@ jobs:
     name: Pruebas con variables seguras
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URLL }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
     steps:
       - uses: actions/checkout@v4
